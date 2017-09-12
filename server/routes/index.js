@@ -1,9 +1,25 @@
-var express = require('express');
-var router = express.Router();
+//=========================
+// FOR ALL ROUTES
+//=========================
+const express = require( 'express' );
+const router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+//=========================
+// HOME ROUTE
+//=========================
+router.get( '/', function( tRequest, tResponse )
+{
+	console.log( 'hello' );
+	tResponse.render( 'index', { title: 'Express' } );
 });
 
+//=========================
+// NEWS ROUTES
+//=========================
+router.use( '/api/v1/nytimes', require( './api/v1/nytimes' ) );
+
+
+//=========================
+// EXPORTS
+//=========================
 module.exports = router;
