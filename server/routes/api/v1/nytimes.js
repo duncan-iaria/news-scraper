@@ -24,19 +24,20 @@ function onScrapeNyTimes( tRequest, tResponse )
 
         function getNewsStory( tIndex, tElement )
         {
+            let tempId = $( tElement ).attr( 'data-story-id' );
             let tempTitle = $( tElement ).find( 'a' ).text().trim();
             let tempLink = $( tElement ).find( 'a' ).attr( 'href' );
             let tempImage = $( tElement ).find( 'img' ).attr( 'src' );
 
-            if( tempTitle )
+            if( tempTitle && tempId )
             {
-                tempResults.push( { title: tempTitle, link: tempLink, image: tempImage } );
+                tempResults.push( { id: tempId, title: tempTitle, link: tempLink, image: tempImage } );
             }
         }
 
         console.log( tempResults );
         console.log( tempResults[0] );
-        
+        tResponse.json( tempResults );
     });
 }
 
