@@ -4,6 +4,9 @@ const router = express.Router();
 const cheerio = require( "cheerio" );
 const request = require( "request" );
 
+//get access to the ALL mongoose models
+const db = require( '../../../models' );
+
 //=========================
 // GET
 //=========================
@@ -11,7 +14,6 @@ router.get( '/', onScrapeNyTimes );
 
 function onScrapeNyTimes( tRequest, tResponse )
 {
-    console.log( "hey" );
     request( "http://www.nytimes.com/", function( tError, tData, tHtml )
     {
         // Load the HTML into cheerio
@@ -31,12 +33,16 @@ function onScrapeNyTimes( tRequest, tResponse )
 
             if( tempTitle && tempId )
             {
-                tempResults.push( { id: tempId, title: tempTitle, link: tempLink, image: tempImage } );
+                tempResults.push( { id: tempId, title: tempTitle, link: tempLink, image: tempImage, comments: [] } );
             }
         }
 
-        console.log( tempResults );
-        console.log( tempResults[0] );
+        //load all results to the db for now
+        for( let i = tempResults.length - 1; i >= 0; --i )
+        {
+            new db.Article( tempResults[i] ).save();
+        }
+
         tResponse.json( tempResults );
     });
 }
