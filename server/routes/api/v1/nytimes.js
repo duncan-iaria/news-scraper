@@ -50,15 +50,33 @@ function onScrapeNyTimes( tRequest, tResponse )
 
             if( tempTitle && tempId )
             {
-                tempResults.push( { id: tempId, title: tempTitle, link: tempLink, image: tempImage, comments: [] } );
+                tempResults.push( { articleId: tempId, title: tempTitle, link: tempLink, image: tempImage, comments: [] } );
             }
         }
 
         //load all results to the db for now
         for( let i = tempResults.length - 1; i >= 0; --i )
         {
-            //if( db.Article.find( {  } ) )
-            new db.Article( tempResults[i] ).save();
+            console.log( `temp results = ${ tempResults[i].articleId }` );
+            if( db.Article.find( { articleId: tempResults[i].articleId }, onFindArticle ) );
+        }
+
+        function onFindArticle( tError, tArticle )
+        {
+            if( tError )
+            {
+                console.log( `error when searching db: ${ tError }` );
+                return;
+            }
+
+            console.log( tArticle );
+
+            //TODO - T ARTICLE IS NOT ANYTHING IF - have to get the article obj from aboev
+            //save the article if it DOESNT already exist
+            if( !tArticle )
+            {
+                new db.Article( tArticle ).save();
+            }
         }
 
         let totalTime = Date.now() - tempStart;
