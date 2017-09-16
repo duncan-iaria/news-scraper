@@ -7,11 +7,13 @@ const router = express.Router();
 //=========================
 // HOME ROUTE
 //=========================
-router.get( '/', function( tRequest, tResponse )
+router.get( '/', onGetIndex );
+
+function onGetIndex( tRequest, tResponse )
 {
-	console.log( 'hello' );
+    console.log( 'hello' );
 	tResponse.render( 'index', { title: 'Express' } );
-});
+}
 
 //=========================
 // NEWS ROUTES

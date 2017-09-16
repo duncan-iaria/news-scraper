@@ -1,12 +1,25 @@
-var express = require( 'express' );
-var path = require( 'path' );
-var favicon = require( 'serve-favicon' );
-var logger = require( 'morgan' );
-var cookieParser = require( 'cookie-parser' );
-var bodyParser = require( 'body-parser' );
+const express = require( 'express' );
+const path = require( 'path' );
+const favicon = require( 'serve-favicon' );
+const logger = require( 'morgan' );
+const cookieParser = require( 'cookie-parser' );
+const bodyParser = require( 'body-parser' );
+const mongoose = require( 'mongoose' );
+// const db = require( './models' );
 
 // var index = require( './routes/index' );
 // var users = require( './routes/users' );
+mongoose.connect( 'mongodb://localhost/news_db' );
+
+const db = mongoose.connection;
+
+db.on( 'error', console.error.bind( console, 'connection error:' ) );
+db.once( 'open', onMongoConnectionComplete );
+
+function onMongoConnectionComplete()
+{
+	console.log( 'connected to mongo!' );
+}
 
 var app = express();
 
@@ -19,6 +32,9 @@ app.use( require( './routes' ) );
 app.set( 'views', path.join(__dirname, 'views' ) );
 app.set( 'view engine', 'jade' );
 
+//=========================
+// MIDDLEWARE
+//=========================
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use( logger( 'dev' ) );
@@ -47,4 +63,7 @@ app.use( function( err, req, res, next )
 	res.render('error');
 });
 
+//=========================
+// EXPORTS
+//=========================
 module.exports = app;
