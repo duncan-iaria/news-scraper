@@ -57,6 +57,7 @@ function onScrapeNyTimes( tRequest, tResponse )
         //load all results to the db for now
         for( let i = tempResults.length - 1; i >= 0; --i )
         {
+            //if( db.Article.find( {  } ) )
             new db.Article( tempResults[i] ).save();
         }
 
