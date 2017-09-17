@@ -2,7 +2,7 @@ const mongoose = require( 'mongoose' );
 
 const articleSchema = mongoose.Schema
 ({
-    id: Number,
+    articleId: Number,
     title: String,
     link: String,
     image: String,
