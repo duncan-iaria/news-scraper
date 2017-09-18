@@ -4,11 +4,21 @@
 .article
 {
     width: 600px;
+    height: auto;
 
+    padding: 10px;
     margin: 10px auto;
-    
-    background-color: $colorLightGrey;
 
+    background-color: #fff;
+
+    a
+    {
+        color: $colorBlack;
+        text-decoration: none;
+        display: inline;
+    }
+
+    // MEDIA QUERIES
     @include phablet
     {
         width: 100%;
@@ -26,4 +36,23 @@
         width: 900px;
         // background-color: blue;
     }
+}
+.article-img-container
+{
+    display: inline-block;
+    // float: left;
+}
+
+.article-link-container
+{
+    display: inline-block;
+    float: right;
+    text-align: left;
+}
+
+.article-img
+{
+    display: inline-block;
+    width: 100px;
+    height: auto;
 }

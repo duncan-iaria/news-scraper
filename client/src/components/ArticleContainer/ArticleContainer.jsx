@@ -1,4 +1,5 @@
 import React from 'react';
+import './ArticleContainer.css'
 
 //COMPONENTS
 import Article from '../Article/Article';

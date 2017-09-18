@@ -11,19 +11,23 @@ class Article extends React.Component
         
         if( details.image )
         {
-            tempImg = <img src={ details.image }/>
+            tempImg = <img className="article-img" src={ details.image }/>
         }
 
         return(
             <div className="article">
                 {/* renders the image if it exists, otherwise renders nothing */}
-                { tempImg }
+                <div className="article-img-container">
+                    { tempImg }
+                </div>
 
                 {/* article link w/text */}
-                <a href={ details.link }>
-                    <h1>{ details.title }</h1>
-                </a>
-                <button>Delete</button>
+                <div className="article-link-container">
+                    <a href={ details.link }>
+                        { details.title }
+                    </a>
+                    <button>Delete</button>
+                </div>
             </div>
         )
     }
