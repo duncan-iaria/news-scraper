@@ -12,18 +12,18 @@
     @include phablet
     {
         width: 100%;
-        background-color: red;
+        // background-color: red;
     }
 
     @include tablet
     {
         width: 600px;
-        background-color: yellow;
+        // background-color: yellow;
     }
 
     @include desktop
     {
         width: 900px;
-        background-color: blue;
+        // background-color: blue;
     }
 }
