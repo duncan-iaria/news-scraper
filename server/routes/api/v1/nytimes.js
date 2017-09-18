@@ -8,7 +8,7 @@ const request = require( "request" );
 const db = require( '../../../models' );
 
 //limit article count from a source
-const articleLimit = 25;
+let articleLimit = 25;
 
 //=========================
 // GET
@@ -28,6 +28,8 @@ function onScrapeNyTimes( tRequest, tResponse )
 
         //make an empty array for saving our scraped info
         let tempResults = [];
+        let tempArticles = []; 
+
         let tempArticleStories = $( 'article.story' );
 
         //if the article limit is less than the total articles (dont want null stuff)
@@ -50,39 +52,58 @@ function onScrapeNyTimes( tRequest, tResponse )
 
             if( tempTitle && tempId )
             {
-                tempResults.push( { articleId: tempId, title: tempTitle, link: tempLink, image: tempImage, comments: [] } );
+                tempResults.push( { articleId: tempId, title: tempTitle, link: tempLink, image: tempImage, source: 'nytimes', comments: [] } );
             }
         }
 
         //load all results to the db for now
         for( let i = tempResults.length - 1; i >= 0; --i )
         {
-            console.log( `temp results = ${ tempResults[i].articleId }` );
-            if( db.Article.find( { articleId: tempResults[i].articleId }, onFindArticle ) );
-        }
+            //console.log( `temp results = ${ tempResults[i].articleId }` );
+            if( db.Article.findOne( { articleId: tempResults[i].articleId }, onFindExistingArticle ) );
 
-        function onFindArticle( tError, tArticle )
-        {
-            if( tError )
+            function onFindExistingArticle( tError, tArticle )
             {
-                console.log( `error when searching db: ${ tError }` );
-                return;
+                if( tError )
+                {
+                    console.log( `error when searching db: ${ tError }` );
+                    return;
+                }
+                
+                //if the article returns nothing, save a copy in the db
+                if( !tArticle )
+                {
+                    new db.Article( tempResults[i] ).save();
+                    tempArticles.push( tempResults[i] );
+                }
+                else
+                {
+                    //push the record from the db instead of the scraped stuff
+                    tempArticles.push( tArticle );
+                }
+
+                //if we've got all the same amount of articles as we had results
+                if( tempResults.length == tempArticles.length )
+                {
+                    db.Article.find( { source: 'nytimes' }, onGetNYTArticles )
+                }
             }
 
-            console.log( tArticle );
-
-            //TODO - T ARTICLE IS NOT ANYTHING IF - have to get the article obj from aboev
-            //save the article if it DOESNT already exist
-            if( !tArticle )
+            function onGetNYTArticles( tError, tArticles )
             {
-                new db.Article( tArticle ).save();
+                if( tError )
+                {
+                    console.log( `Error getting the NYTimes articles: ${ tError }` );
+                }
+                else
+                {
+                    tResponse.json( tArticles );
+                }
             }
         }
 
         let totalTime = Date.now() - tempStart;
         console.log( `total time to process = ${ totalTime }ms` );
-
-        tResponse.json( tempResults );
     };
 }
 

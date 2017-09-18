@@ -6,6 +6,7 @@ const articleSchema = mongoose.Schema
     title: String,
     link: String,
     image: String,
+    source: String,
     comments:
     [{
         author: String,
