@@ -1,7 +1,7 @@
 import React from 'react';
 
 //COMPONENTS
-import Article from './Article';
+import Article from '../Article/Article';
 
 class ArticleContainer extends React.Component
 {

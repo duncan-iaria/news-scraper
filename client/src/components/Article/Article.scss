@@ -1,0 +1,29 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.article
+{
+    width: 600px;
+
+    margin: 10px auto;
+    
+    background-color: $colorLightGrey;
+
+    @include phablet
+    {
+        width: 100%;
+        // background-color: red;
+    }
+
+    @include tablet
+    {
+        width: 600px;
+        // background-color: yellow;
+    }
+
+    @include desktop
+    {
+        width: 900px;
+        // background-color: blue;
+    }
+}

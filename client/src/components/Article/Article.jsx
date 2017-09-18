@@ -1,4 +1,5 @@
 import React from 'react';
+import './Article.css';
 
 class Article extends React.Component
 {
@@ -14,7 +15,7 @@ class Article extends React.Component
         }
 
         return(
-            <div>
+            <div className="article">
                 {/* renders the image if it exists, otherwise renders nothing */}
                 { tempImg }
 
@@ -22,6 +23,7 @@ class Article extends React.Component
                 <a href={ details.link }>
                     <h1>{ details.title }</h1>
                 </a>
+                <button>Delete</button>
             </div>
         )
     }

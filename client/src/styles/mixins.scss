@@ -1,0 +1,27 @@
+$phablet-width: 768px;
+$tablet-width: 960px;
+$desktop-width: 1024px;
+
+@mixin phablet
+{
+    @media( max-width: #{ $phablet-width } )
+    {
+        @content;
+    }
+}
+
+@mixin tablet
+{
+    @media( max-width: #{ $desktop-width } ) and ( min-width: #{ $phablet-width } )
+    {
+        @content;
+    }
+}
+
+@mixin desktop
+{
+    @media( min-width: #{ $desktop-width } )
+    {
+        @content;
+    }
+}
